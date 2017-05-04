@@ -1,0 +1,174 @@
+Objects can contain functions that can be called with `this`.
+We can create a function called a 'constructor function' that will allow us to create object literals
+  out of functions and input data.
+Use function syntax for 'this' to refer to the object itself
+Convention is to have capitol letter for constructor fn
+
+const Book = function (author, title) {
+  this.author = author
+  this.title = title
+}
+
+Book.prototype.report = function () {
+  console.log(`Here's a book report on ${this.title} by {this.author}.`)
+}
+
+const bookA = new Book('Tom Sawyer', 'Mark Twain')
+ // Another way!!
+
+class Book {
+  constructor (author, title) {
+    this.author = author
+    this.title = title
+  }
+  report () {
+    console.log(`Here's a book report on ${this.title} by {this.author}.`)
+  }
+}
+
+---
+
+Every class need a render() component
+Use return() and then inside put all your html
+Can only render one parent tag per return()
+Can import styles directly into index.js if not using a sass file
+Props are made up attributes that allow information to be passed between components
+We can pass variables via <h1>{this.props.propName}</h1>
+`$r` in the console will give the information about the currently selected element
+Stateless functions -- when we don't need other methods beside render, we can create a variable
+  with the props as an argument and then call the return inside of a function
+We can render individual pages instead of the entire map
+  Create the stateless functions for BrowserRouter, Match, and Miss form 'react-router'
+  Then use exact matches and render whatever components we need
+  const Root = () => {
+  return (
+    <BrowserRouter>
+      <div>
+        <Match exactly pattern="/" component={StorePicker} />
+        <Match pattern="/store/:storeId" component={App} />
+        <Miss component={NotFound} />
+      </div>
+    </BrowserRouter>
+  )
+}
+Helper file is individual functions that can be called in many different objects, for example formatting money text across multiple pages
+Example of a component page that contains a random fn from the helper file
+import React from 'react';
+import { getFunName } from '../helpers';
+
+class StorePicker extends React.Component {
+  render() {
+    // Any where else
+    return (
+      <form className="store-selector">
+        <h2>Please Enter A Store</h2>
+        <input type="text" required placeholder="Store Name" defaultValue={getFunName()} />
+        <button type="submit">Visit Store →</button>
+      </form>
+    )
+  }
+}
+
+export default StorePicker;
+
+We can attach events into the html tags inside of the return fn inside of our components. Use onSubmit, etc.
+class StorePicker extends React.Component {
+  // constructor() {
+  //   super();
+  //   this.goToStore = this.goToStore.bind(this);
+  // }
+  goToStore(event) {
+    event.preventDefault();
+    console.log('You Changed the URL');
+    // first grab the text from the box
+    console.log(this.storeInput.value);
+    // second we're going to transition from / to /store/:storeId
+  }
+
+  render() {
+    // Any where else
+    return (
+      <form className="store-selector" onSubmit={(e) => this.goToStore(e)}>
+        <h2>Please Enter A Store</h2>
+        <input type="text" required placeholder="Store Name" defaultValue={getFunName()} ref={(input) => { this.storeInput = input}} />
+        <button type="submit">Visit Store →</button>
+      </form>
+    )
+  }
+}
+
+Use function refs inside of inputs to create the reference to the input itself: ref={(input) => { this.storeInput = input}
+  Then we can use this.storeInput.value to reference the input value itself after using the onSubmit={(e) => this.goToStore(e)}
+
+To go to a router, use StorePicker.contextTypes = {
+  router: React.PropTypes.object
+}
+Then we can use the transitionTo method to put the value from the input into the event:
+  this.context.router.transitionTo(`/store/${storeId}`)
+
+'State' is the name of the master object that contains all the states and then edit the data which in turn edits html
+  This allows us to change individual pieces of data (like a name) and then every time that information is pulled the info is updated
+
+We can create components like 'add item to list' or whatever (AddFishForm in example) and import it into other components as needed
+Create a function inside of your app.js, then use it to create a new object for eg fishes. Pass that in through the render for the app.js
+//In our AddFishForm
+  class AddFishForm extends React.Component {
+  createFish(event) {
+    event.preventDefault();
+    console.log('GOnna make some fish! 🎣');
+    const fish = {
+      name: this.name.value,
+      price: this.price.value,
+      status: this.status.value,
+      desc: this.desc.value,
+      image: this.image.value,
+    }
+    this.props.addFish(fish);
+    this.fishForm.reset();
+  }
+
+// In our app.js
+ addFish(fish) {
+    // update our state
+    const fishes = {...this.state.fishes};
+    // add in our new fish
+    const timestamp = Date.now();
+    fishes[`fish-${timestamp}`] = fish;
+    // set state
+    this.setState({ fishes });
+  }
+...
+<Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
+
+---------------------------
+
+4.5:
+Each component will contain all the logic and information for the button
+Won't ever touch the HTML w/ webpack
+  Import React from 'react' <-- tells JS this is a library
+  Import App from './App' <-- is a JS file
+  ReactDOM.render(<App />, document.getElementById('root')) <--
+^^This is all that is usually needed in index.js. The rest will be written in App.js and downstream components
+The HTML inside of the App.js and the render() fn are basically just rendering an html element, with attributes, then any of its children, and can we written as straight HTML inside of render()
+CSS convention note: things are called like '.App-logo' because the logo is located inside of the App. This is not a nesting as there is no sass implemented in react-app
+JSX requires self-closing tags
+Since everything is rendered inside of one <div> tag, remember to target 'body #root' on css
+We can make a code outside of the return but inside of the render() to then call fns inside of the return JSX
+We can make small edits to the DOM and adjust the interface based on editable data
+  React keeps DOM which is what is on screen, and in the memory keeps a virtual DOM that can be changed on the fly, because React is only changing the DOM based on additions to the virtual DOM
+State is the special thing that shows above the render() function on our class
+onSubmit in submit buttons can be used as a function on 'this', ie the class, to activate upon submitting
+Because functions are being handled outside of render(), we need to use arrow functions
+  So basically use arrow fns for event handlers
+To grab the inputs from a field input or w/e, use a ref='' inside of the input tag then use this.refs.$nameOfTheRef from the input ref we want and reference it
+We cannot mutate the state directly, we have to use the built-in 'this.setState({stateName: $newStateValue})' then 'concat' the new elements for the array onto the old array state
+Spread operator '...' to spread all the old values over an array
+Each unique return of an iterative fn inside of render() should have a key='' property of some kind which must be unique within that fn, so for example in a map we can use the optional second arg of the map() fn like:
+  const createList = this.state.list.map((item, i) => {
+    return <li key={i}>{item}</li>
+  })
+if there is an API call w/ unique data, we could use that, but we would have to use objects instead of strings, eg
+
+  const createList = this.state.list.map((item, i) => {
+    return <li key={item.id}>{item}</li>
+  })

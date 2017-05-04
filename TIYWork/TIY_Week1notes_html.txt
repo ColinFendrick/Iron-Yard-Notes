@@ -1,0 +1,105 @@
+	1: 3/13/16 HTML/CSS notes:
+
+<html>tag is root of doc
+	can only have <head> and <body>
+	<head> is metadata
+	<body> is all content
+
+Tags:
+	<p> is basic plain text container
+	<div>divides blocks of content
+	<a> is links tag, short for ‘anchor’
+	<h1>…<h6> short for ‘heading’, introduces following content
+	<img> embeds image (void tag)
+
+fORMAT FOR TAGS IS:
+	<?tag name? ?attr name?='?attr value'></?tag name>
+
+Class tags organize tags into groups. Tags can have multiple class attribute values.
+
+Semantic tags inform browser rendering and do search engine optimization (SEO)
+	e.g.:<h1>tags signify a section of the webpage is beginning; this is the most important heading, etc.
+	<header>tag also for example creates a masthead logo or something, and tells google bots that scrape webpages this is important
+	<footer>, <article>, <ol> are also semantic
+	cf. <div>. <break> tags which are not semantic
+
+<!-- CSS -->
+	Cascading stylesheet
+	gives information on formatting in a separate document
+	format of a rule:
+
+		?selector? {
+			?property?:?value?; <-- declaration
+			?another property?:?value?; <-- another declaration
+		}
+
+	selectors can select classes with .class or #id
+	specific beats general
+	Stylesheets can be embedded using <style> tags in the <head> tag or linking it:
+		<link rel='stylesheet' type='text/css' href='stylesheet.css'>
+
+
+
+
+
+3/14/16 HTML/CSS Notes:
+	In grid, all lines take up full width of website unless otherwise specified
+	Margins of adjacent html elements will overlap
+	Largest margin will set margins by default
+
+
+FLEXBOX NOTES:
+	wrap all boxes for each flex in a div container w/:
+	.flex-container {
+    display:flex;
+    flex-direction: row; <-- direction boxes flex over (row/column)
+    flex-wrap: wrap; <--whether or not boxes span multiple lines (wrap/nowrap)
+    justify-content: center; <-- alignment along main axis (flex-start/flex-end/center/space-around/space-between)
+			{space-around === every item is equally spaced between margins and other items}
+			{space-between === space-around w/o end margins}
+    align-content: flex-start; <-- alignment between rows [if flex-dir:row] (flex-start/flex-end/center/space-around/space-between/stretch)
+    align-items: stretch; <-- alignment along other axis (flex-start/flex-end/center/stretch/baseline)
+	.flex-item {
+	  height:
+	 	width:
+	 	flex-grow: size of item relative to other items
+	 	flex-shrink: how much flexbox shrinks when other items are added to the row
+	 	flex-basis: min width
+		[[can basically just use flex:1 to make this as large as possible, every other item shrinks to take only necessary space]]
+	 }
+	 <div> tags are used to break up individual boxes inside a flex
+	 since display:flex doesn't cascade, only the immediate children of that item are flexed
+
+3/15/16 HTML/CSS NOTES:
+	When building web page, break down web page into components -- generally use header, main, footer
+	Default styling on header/main/footer tags have no styling, only for organization
+	Digital color meter samples color
+	Use <ul> w/ list-style:none; for navigation items
+	<body> has default margins
+	padding on one element will push away the shared margins of nearby elements
+	<nav>/<div> can be used to divide webpage w/ no default styling
+	placehold.it can be placeholder images
+	margin-top and margin-bottom of adjacent images are the same --> one must be removed to have the other adjusted (largest wins)
+	use a base value font-size in body and then relative (em's) in each individual tag
+	position:fixed <-- will fix spot on page (eg for nav bars on top)
+			top/left/right/bottom: anchors division to whatever part of the screen [use 0px to put on the side of the screen]
+	media queries act like css selectors but only apply when logic is used: e.g. landscape/portrait, <= certain sizes
+	want to design for phone first
+
+	MEDIA QUERIES:
+	 @media (rules) {
+	 new css goes in here, exactly formatted like normal css
+	 }
+	 rules: max-width: $value$
+
+3/16/16 HTML/CSS:
+	syntax for special characters in html: &copy;
+	start by styling one thing first, then bring that info down
+	list of a:#state#s and their precedents:
+		a:link
+		a:visited
+		a:focus
+		a:hover
+		a:active
+	css selector for an html element w/ certain attribute:
+		h3[attr="value"] === [attr^="val"] === [attr$=ue]

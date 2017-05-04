@@ -1,0 +1,86 @@
+4.24.17 MobX:
+Using MobX we can mutate the state on the fly, and use it for apps that are not highly interaction-centric, like Jabberdexicon
+This takes state and moves it outside of the app flow into a separate piece that can interact freely in the tree
+Actions modify state (in store) and state triggers reactions (which can trigger actions, etc)
+Computed values exist which are derivable from the state, eg filtering state to certain state objects
+Organize all tree branches into separate folders named whatever the components are called, including app
+Then make an index.js inside components that exports all the things we need
+We can move state back to App
+We can put static PropTypes to self-document required PropTypes
+  Proptypes are now deprecated inside of React, so use `yarn add prop-types` then import PropTypes from 'prop-types'
+Use the update function from 'react-addons-update'
+
+To install MobX, yarn add mobx mobx-react
+We also need to use `@` decorators, which have been pushed from ES17, so we use `yarn add babel-plugin-transform-decorators=legacy`
+  Then in the .babelrc we use "plugins" : ["transformers-decorators-legacy"]
+
+JS Classes
+
+--
+class Person {
+  static formalTitle = 'Mx.'
+
+  constructor (name) {
+  const [given, family] = name.split(' ')
+  this.givenName = given
+  this.familyName = family
+  }
+
+  greet () {
+  console.log('Hi, '+ this.givenName)
+  }
+
+  formallyGreet () {
+  console.log(`Hello, ${Person.formalTitle}` + this.familyName)
+  }
+}
+
+class Soldier extends Person {
+  constructor (name, rank) {
+    super(name)
+    this.rank = rank
+  }
+
+  greet () {
+    console.log('Hello, ' + [this.rank, this.familyName].join)
+  }
+}
+
+
+const p1 = new Soldier('Jason Perry', 'private')
+const p2 = new Soldier('Colin Fendrick')
+
+p1.greet() <-- logs 'Hello, Private Perry' //greet for Soldiers overrides greet for Person
+p2.formallyGreet() <-- logs 'Hello, Mx. Fendrick' //formallyGreet is not defined for soldier, but it is for person which extends it to soldier
+--
+
+We use classes to create stores by
+
+class Store {
+  //static prop types
+}
+
+const store = new Store()
+
+export default store
+
+Store will hold the busiuness logic as well
+
+We then `import { observable } from 'mobx'`
+`@observable propertyName`
+
+And inside of our components which observe we `import { observer } from 'mobx-react'`
+
+We can then import the store directly into each component that is required, instead of passing it down, which allows us to change store on the fly
+To rerender a new component which derives its value from state, use @computed (and import {observer, computed} from 'mobx')
+
+
+
+-------
+UI Libraries
+Skeleton - good basic template of components
+Semantic UI - styling for forms and inputs
+Material UI - Google stuff
+Tachyons-css - css style like material ui
+Ant Design - another set of design and implementation philosophies
+JXNBLK - modular systems and design including Rebass

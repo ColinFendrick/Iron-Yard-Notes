@@ -1,0 +1,106 @@
+MOBX:
+To install MobX, yarn add mobx mobx-react
+We also need to use `@` decorators, which have been pushed from ES17, so we use `yarn add babel-plugin-transform-decorators-legacy`
+  Then in the .babelrc we use "plugins" : ["transform-decorators-legacy"]
+Inside of our stores we should: `import { observable } from 'mobx'` to call something `@observable propertyName`
+Inside of our App we should: `import { observer } from 'mobx-react' `
+If you have a function in your store that alters state, you should tag them as @action
+
+PROPTYPES:
+We can put static PropTypes to self-document required PropTypes
+  Proptypes are now deprecated inside of React, so use `yarn add prop-types` then import PropTypes from 'prop-types'
+
+UPDATE STATE W/ REACT UPDATE:
+yarn add react-addons-update
+Use the update function from 'react-addons-update'
+
+CSS MODULES:
+to enable css modules, replace 'css-loader' in our webpack.config with:
+`{
+  loader: 'css-loader',
+  options: {
+    modules: true,
+    localIdentName: '[name]__[local]__[hash:base64:5]'
+  }
+}`
+
+CLASSNAMES LIBRARY:
+yarn add classnames
+import classNames from 'classnames/bind'
+  const cx = classNames.bind(styles)
+
+
+LODASH:
+yarn add lodash
+import _ from 'lodash'
+
+REACT ROUTER:
+yarn add react-router-dom
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
+
+MATERIAL UI:
+yarn add material-ui
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MyAwesomeReactComponent from './MyAwesomeReactComponent';
+
+FIREBASE:
+yarn add firebase
+make a db file in our main src:
+import * as firebase from 'firebase'
+const app = firebase.initializeApp({
+  apikey: /whatever/
+  atabaseURL: /url/
+})
+
+export default app.database()
+
+in our main file, import db from '../db'
+
+on the firebase website, use their information and our object values to call this data:
+db.ref('items').on('value', (snapshot) => {
+  /do stuff with snapshot/
+})
+
+To write to the db:
+db.ref('items').push().set({
+  /example key/: 'our text',
+  /example key/: false
+})
+
+_toggle = id => {
+  db.ref(`items/${id}`).update({ completed: !this.state.items[id].completed })
+}
+
+
+AUTH0:
+yarn add auth0-lock
+create a new js file called auth.js with a singleton class of Auth
+import Auth0Lock from 'auth0-lock'
+
+class Auth {
+  @observable token
+  constructor () {
+    this.token = window.localStorage.getItem('auth:token')
+    this.lock = new Auth0Lock(CLIENT_ID, CLIENT_DOMAIN)
+    this.lock.on('authenticated', ({ idToken }) => {
+      this.token = idToken
+    })
+  }
+
+  signIn () {
+    this.lock.show()
+  }
+
+  signOut () {
+    this.token = null
+  }
+
+  @computed get isSignedIn () {
+    return this.token
+  }
+}

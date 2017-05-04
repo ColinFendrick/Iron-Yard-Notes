@@ -1,0 +1,136 @@
+3.20.16:
+
+Anything in a web browser where web page is interacting
+DOM - document object model is the living website
+HTML is structure
+CSS is style
+JavaScript is behaviour
+
+To put in js script we link to the script in the head tag:
+
+<head>
+<script src='main.js'></script>
+</head>
+
+can also put script tag as the last thing in the body html
+
+Code:
+To define a variable:
+  let 'varname = "value" '
+Declaration is with 'let', assignment is just to give a new value to the variable
+We can declare a variable w/o assigning a value
+variables can contain $ and _ but otherwise can only have letters and numbers
+Case-sensitive
+can't start with a number
+aside from variables we also have constants
+  const $maximumOccupancy = 99
+  const phi = 1.618
+type: number, string, boolean, undefined, null, and objects(usually functions)
+js is dynamically typed, meaning each variable can hold alternative data types (numbers to functions, eg)
+Primitive data types are numbers, strings, boolean, undefined, and null
+To use the same type of quote inside of a quote, use a backslash: 'It\'s great'
+to intentionally define a lack of a value, use 'null'
+
+Operators:
+Use pemdas
+type coercion: 3+'3' gives 33 the string
+type coercion
+
+Control flow:
+logic and if-else if-else statements
+else if and else statements are optional
+  eg: if (warnings > 0) {
+  console.log('warnings found')
+  }
+Loops: for ([initial expression];[condition];[incrementing expression]) {
+  //what happens//
+}
+eg:
+  const scoops=4
+  for (i=0;i<=scoops; i++) {
+  console.log('I have '+(scoops-i)+' scoops of ice cream left.')
+  }
+
+
+
+3.21.16:
+object literal:
+  let dog ={}
+  dog.name='Fluffy'
+  dog.age=8
+  dog.color='brown'
+
+> dog
+{ name: 'Fluffy', age: 8, color: 'brown' }
+
+  also dog ={
+  name: 'Fluffy',
+  age: 8,
+  color: 'brown'
+  }
+
+to access property: dog.name
+also dog['namex2']
+
+array: let list =['String',3,true]
+array.length=3
+let names = ['abe','bob','chuck','dave']
+names[2]='chuck'
+
+functions
+function double(x) {
+return 2*x
+}
+double(2)=4
+
+parameters are declared in functions, arguments are used when fns are executed
+can also use functions w/o names. e.g.
+--const square= function(n) {
+return n*n
+}
+
+const square = (n) => {
+return n*n
+}
+
+const square = n => n*n
+
+const doubleAndAddTax = (price) => {
+  let result=price*2
+  result = result*1.07
+  return result
+}
+
+const foo = (a,b) => {
+return a+b
+}
+
+scope:
+variables defined inside of fns cannot be called outside
+
+
+3.22.16:
+document.addEventListener('DOMContentLoaded'.fnName) <-- loads the script of the JS after the DOM is loaded to prevent errors
+don't pass fnName() or we will pass whatever the function is instead of calling the function
+document.querySelector() takes as an argument the first selector, .querySelectorAll() takes all selectors as args
+.style on a selector in node will show every CSS property basically
+Can use document.querySelector, take the h1, then use .textContent to add in the text
+Use addEventListener to te document.querySelector('button') to call a function
+To create an element on a JS event, use createElement <-- method on document but doesn't actually put the element into the page
+  create a constant to select the parent element of the created element
+  use .className to add a class name to each created element
+  .appendChild to add the element inside the parent element
+  to manipulate the CSS, use .style to put the style property directly into the HTML:
+    .style.##style property##
+When selecting the style of an element we need to turn a string into a 10 then use number:
+  Replace the px in the style with nothing then use Number()
+  And we're adding one px to the style:top for each element
+Then we will use a timer to slow this down:
+  use setInterval(function, milliseconds between call)
+Finally delete the element saying if top > height , delete using .removeChild
+
+
+3.23.16:
+backtick quotes and ${} allow javascript code inside of strings
+  eg `hello${Math.random()}`
+event.target targets the part of the function for event listeners in javascript

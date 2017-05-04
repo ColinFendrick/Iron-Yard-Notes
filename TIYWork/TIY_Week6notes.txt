@@ -1,0 +1,80 @@
+'4.17 classnames and css modules
+After enabling css modules, to use cx with css modules:
+
+import classNames from 'classnames/bind'
+const cx = classNames.bind(styles)
+
+then using, eg,
+... return <li className={cx({active: this.props.current === character.id})}></li>
+will actually give us {styles.active} on the li here
+
+to enable css modules, replace 'css-loader' in our webpack config with:
+{
+  loader: 'css-loader',
+  options: {
+    modules: true,
+    localIdentName: '[name]__[local]__[hash:base64:5]'
+  }
+}
+
+generally after using css modules, all imports of css into any component require: import styles from '../styles/ThisComponent.scss'
+
+4.18
+We can call an anonymous function inside of a onClick, eg.
+render...
+  return...
+    <li
+      onClick = {() => { this._Click(character.id) }}
+      /li>
+
+There's many other lifecycle methods we can use to update states after the state is updated, e.g.
+Use componentDidUpdate (prevProps, prevState)  {
+  if (prevState.current !== this.state.current)
+  window.fetch('www.google.com')
+  .then(r => r.json())
+  .then(data => {
+    this.setState({
+      ...data
+    })
+  })
+}
+
+to explicitly pass only parts of the state:
+we can create part of state that we want to pass, eg character = {name: 'string', id: x, image='url'}
+then give <CharacterList {...this.state.character} /> <- will call like this.props.name, this.props.id
+
+to create multiple links to different pages, and use the back button, etc.
+We will use React Router:
+-- yarn add react-router-dom
+import React from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
+then use <Route path='/route1' component={Component1} />
+
+Wrap the entire return in a <Router> tag inside of our app, then use a <Route exact path='/' component={Home} />
+then <Route exact path='/CharacterDetails/:id' component={CharacterDetails} />
+then we can use the <Link to='/ComponentPath'>Some text</Link> to link to specific links
+
+We can then create states for individual components and update those specific states depending on which is the active link with
+componentDidUpdate () {
+  const id =  this.props.match.params.id
+  window.fetch(`/.characters/${id}`)
+  .then(r => r.json())
+  .then( data => {
+    this.setState({
+      ...data
+    })
+  })
+}
+
+the .params.banapple is from <Route exact path='/CharacterDetails/:banapple' component={CharacterDetails} />
+We can turn Links to NavLink's so we can give them activeClassName={styles.active}
+
+
+basic object destructuring:
+const { id, name } = character
+where character ={id: 1, name: 'Jake'}

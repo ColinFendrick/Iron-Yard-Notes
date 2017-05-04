@@ -1,0 +1,90 @@
+4.11
+Assignment destructuring:
+ const [life, tau] = [42, Math.PI * 2]
+
+ const number = { life: 42, tau: Math.PI*2 }
+ let { life, tau } = numbers <-- on this order does not matter
+
+Template Literals:
+  backticks and then ${} to put JS in strings
+  \n is newline char
+
+Spread operator:
+  let colors = ['red', 'blue']
+  let words = ['one', 'two', ...colors] = ['one', 'two', 'red', 'blue']
+  function fish() {
+    for (let i = 0; i < arguments.length; i++) {
+      console.log(arguments[i], 'fish.')
+    }
+  }
+  fish(...words)
+
+Arrow functions:
+  'this' now refers to what it is outside of the function
+  numbers.map(n => n * Math.PI)
+
+Default values:
+  increase = (number, increment = 1) => {
+    return number + increment
+  }
+  increase(41, 624) // 665
+  increase(41) // 42
+
+To create an object:
+  let data = 'Hey man'
+  let msg = { id: false, data }
+
+
+4.13: APIs
+XMLHTTPRequest allows JS to get data from the search input, eg, to then use and alter the virtual DOM
+This leads to AJAX - asynchronous Javascript and XML
+XML is markup language upon which HTML is based that allows for any tags and attributes to be used
+JSON structure is much lighter than XML and can be used to describe the same datasets as XML
+AJAX requests now use almost entirely JSON data b/c JSON.parse() is now supported out of the box
+'get' requests get data from server
+'post' requests give data to server
+we can set the state of our app to be the result of an API request:
+  we can use
+  componentDidMount() {
+    const url = window.fetch('www.google.com', )
+    window.fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      this.setState({
+        items: data
+      })
+    })
+  }
+
+to create a post request
+create a get request and then use post method on the fetch
+addItem (newItem) {
+  const url = window.fetch('www.google.com', )
+  window.fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+    body: JSON.stringify({
+      item {
+        text: newItem
+      }
+    })
+  }).then(r => r.json())
+  .then(data => {
+    this.setState({
+      items: [...this.state.items, data]
+    })
+  })
+}
+
+4.20
+<Route tags>
+use paths and exact paths to render components
+Switch tags wrap the route paths so that only one of the routes will render. The first route that matches
+To pass props to a component inside of a Route tag, use a render attribute of the Route, then pass an anonymous function that returns some shit
+  <Route path='/' render={(props) => {
+    return <CharacterDetails popertyOneName='bar' {...props}/>
+  }} />
+  Props are being given from the Router itself
+When we're using Route, we can use this.props.history.push(`/search/${ourSearchQuery}`) to change our path
+We can also use our history prop outside of a route tag by importing withRouter from 'react-router-dom'
+Then we can export default withRouter(OurComponent)
